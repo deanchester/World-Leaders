@@ -1,5 +1,5 @@
 void setup() {
-  size(800, 800);
+  size(800, 200);
 
   ArrayList<DataPoints> dps = new ArrayList<DataPoints>();
 
@@ -8,12 +8,12 @@ void setup() {
   dps.add(new DataPoints(15, 80));
   dps.add(new DataPoints(20, 110));
   dps.add(new DataPoints(30, 100));
+  
+  ScatterGraph sg = new ScatterGraph(dps, 2, 10,"Time","");
 
-  println("creating scatter graph");
-  ScatterGraph sg = new ScatterGraph(dps, 2, 5);
   smooth();
 }
 
-void loop() {
+void draw() {
 }
 

@@ -1,13 +1,15 @@
 class ScatterGraph {
-  int xStartingPosition = 30;
-  int xHeightFromEdgeOfWindow = height-30;
+  int xStartingPosition = 50;
+  int xHeightFromEdgeOfWindow = height-40;
   int xFinishingPosition = (width-10);
 
   int yStartingPosition = 10;
-  int yHeightFromEdgeOfWindow = 30;
-  int yFinishingPosition = height-30;
+  int yHeightFromEdgeOfWindow = 50;
+  int yFinishingPosition = height-40;
 
-  int textHeightForXAxis = height-20;
+  int textHeightForXAxis = height-30;
+  int textHeightForXAxisLabel = height-15;
+
   int textWidthForYAxis = yHeightFromEdgeOfWindow-20;
 
   int xInterval;
@@ -15,20 +17,29 @@ class ScatterGraph {
 
   ArrayList<DataPoints> dataPoints;
 
+  String yAxisLabel;
+  String xAxisLabel;
+
   PFont axisFont;
 
   public ScatterGraph(String xAxisTitle, String yAxisTitle, ArrayList dataPoints, int xMax, int yMax, int xMin, int yMin) {
   }
 
-  public ScatterGraph(ArrayList<DataPoints> dataPoints, int xInterval, int yInterval) {
+  public ScatterGraph(ArrayList<DataPoints> dataPoints, int xInterval, int yInterval, String xAxisLabel, String yAxisLabel) {
     this.dataPoints = dataPoints;
     this.xInterval = xInterval;
     this.yInterval = yInterval;
+    this.xAxisLabel = xAxisLabel;
+    this.yAxisLabel = yAxisLabel;
     drawAxis();
-    println("Drawing Labels");
-    drawXAxisLabels();
-    drawYAxisLabels();
+    drawYAxisIntervals();
+    drawXAxisIntervals();
+
     plotDataPoints();
+
+
+    drawXAxisLabel();
+    drawYAxisLabel();
   } 
 
 
@@ -107,7 +118,7 @@ class ScatterGraph {
     return maxValue;
   }
 
- void drawXAxisLabels() {
+  void drawXAxisIntervals() {
     fill(0);
     textAlign(CENTER, TOP);  
     axisFont = loadFont("ArialNarrow-10.vlw");
@@ -125,16 +136,16 @@ class ScatterGraph {
     }
   }
 
-  void drawYAxisLabels() {
+  void drawYAxisIntervals() {
     fill(0);
     textAlign(CENTER, CENTER);  
     axisFont = loadFont("ArialNarrow-10.vlw");
     textFont(axisFont); 
-    
+
     stroke(224);
     strokeWeight(1);
 
-    
+
     for (int i = getYMax(dataPoints); i > getYMin(dataPoints); i--) {
       if (i % yInterval == 0) {
         float textPosition = map(i, getYMin(dataPoints), getYMax(dataPoints), yFinishingPosition, yStartingPosition);
@@ -142,6 +153,25 @@ class ScatterGraph {
         line(xStartingPosition+1, textPosition, xFinishingPosition, textPosition);
       }
     }
+  }
+
+
+  void drawYAxisLabel() {
+    translate(xStartingPosition-40, (yStartingPosition+yFinishingPosition)/2);
+    rotate(-HALF_PI);               // Rotate by theta
+    textAlign(CENTER, CENTER);
+    fill(0);
+    axisFont = loadFont("ArialNarrow-10.vlw");
+    textFont(axisFont,14); 
+    text(xAxisLabel, 0, 0);
+  }
+
+  void drawXAxisLabel() {
+    fill(0);
+    textAlign(CENTER, CENTER);  
+    axisFont = loadFont("ArialNarrow-10.vlw");
+    textFont(axisFont, 14); 
+    text(xAxisLabel, (xStartingPosition+xFinishingPosition)/2, textHeightForXAxisLabel);
   }
 }
 
